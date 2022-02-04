@@ -69,7 +69,7 @@ function NextCard( )
 function LoadCard(numberMember,teams)
 {
     const  myCard = document.querySelector('.card');
-    myCard .querySelector(".card-image").style='   background: url("../img/'+ teams[numberMember].profilePic +'");  background-repeat: no-repeat;background-size: contain; background-position:center;'
+    myCard .querySelector(".card-image").style='   background: url("./../img/'+ teams[numberMember].profilePic +'");  background-repeat: no-repeat;background-size: contain; background-position:center;'
     myCard .querySelector(".job").textContent=teams[numberMember].jobTitle
     myCard .querySelector("h2").textContent= teams[numberMember].firstName + " " + teams[numberMember].lastName
     myCard .querySelector("p").textContent = teams[numberMember].verbatim
