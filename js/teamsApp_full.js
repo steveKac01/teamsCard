@@ -1,59 +1,27 @@
-const teams =[
-    {
-        'firstName' : 'Menuk',
-        'lastName'  : 'Efrim',
-        'verbatim'  : 'Behaviour-driven Self-driving Conference Calls',
-        'jobTitle'  : 'Full Stack 🚀',
-        'profilePic': 'profil01.jpg',
-        'stack':[{
-                'label':'VueJs',
-                'level':3
-            },
-            {
-                'label':'php',
-                'level':5
-            }
-        ]
-    },
-    {
-        'firstName' : 'Elena',
-        'lastName'  : 'Stanget',
-        'verbatim'  : 'Benchmark wearable eyeballs',
-        'jobTitle'  : 'Creative Guru ',
-        'profilePic': 'profil02.jpg',
-        'stack':[{
-                'label':'AE',
-                'level':5
-            },
-            {
-                'label':'Patience',
-                'level':5
-            }
-        ]
-    },
-    {
-        'firstName' : 'Alan',
-        'lastName'  : 'Vision',
-        'verbatim'  : 'Implement vertical convergence',
-        'jobTitle'  : 'Techno-Mage',
-        'profilePic': 'profil03.jpg',
-        'stack':[{
-                'label':'Excell',
-                'level':2
-            },
-            {
-                'label':'Quora',
-                'level':5
-            }
-        ]
-    }
-]
 //Ini
 let iCard = 0;
-CardFromScratch()
+const URLJS = "https://stevekac01.github.io/teamsCard/teams.json"
+
  
+let dataTest =   getData()  //Un truc ne va pas ici
+
+ async function getData(){
+
+    try {
+        
+	    const response = await axios.get(URLJS);
+        CardFromScratch(response.data)
+        LoadCard(iCard,response.data)
+        dataTest=response.data // aucun sens mais ca marche
+        return response.data   //aucun sens mais ca marche
+      
+	  } catch (error) {
+	    console.error(error);
+	  }
+}
+
 //----------------------------------------------- Create cards
-function CardFromScratch()
+function CardFromScratch(data)
 {
 const body = document.querySelector("body")
 const card = CreateElement("div",body,"card");   
@@ -71,6 +39,7 @@ statBorder.classList.add("border")
 const techno2 = CreateElement("div",statBorder,"techno")
 const level2 = CreateElement("div",statBorder,"level")
 
+ 
 //Event
 card.addEventListener("click",NextCard)
 }
@@ -86,18 +55,18 @@ function CreateElement(type,parent,className="")
     return returnElement
 }
 
-function NextCard()
+function NextCard( )
 {
-    if(iCard<teams.length-1){
+    if(iCard<dataTest.length-1){
         iCard++
     }else
     {
         iCard=0
     }
-    LoadCard(iCard)
+    LoadCard(iCard,dataTest)
 }
 
-function LoadCard(numberMember)
+function LoadCard(numberMember,teams)
 {
     const  myCard = document.querySelector('.card');
     myCard .querySelector(".card-image").style='   background: url("../img/'+ teams[numberMember].profilePic +'");  background-repeat: no-repeat;background-size: contain; background-position:center;'
@@ -123,56 +92,7 @@ function LoadCard(numberMember)
     }
 }
 
-//loading the first card
-LoadCard(iCard)
-
 //Timer
- //setInterval(NextCard,2000)
+ setInterval(NextCard,2000)
 
- console.log("test")
  
-const URLJS = "https://stevekac01.github.io/teamsCard/teams.json"
-
-let a =  getData()
-
-async function getData(){
-
-    try {
-	    const response = await axios.get(URLJS);
-        const test =  response.data 
-	     console.log( test[0]);
-	 
-	  } catch (error) {
-	    console.error(error);
-	  }
-
-}
-
-/*
- 
- const WEATHER_API = 'https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid=585ee65ca36290ecc301eab6daa59875&units=metric'
-	async function getWeather() {
-	  try {
-	    const response = await axios.get(WEATHER_API);
-	    // console.log(response);
-		updateMeteoCard(response.data)
-	  } catch (error) {
-	    console.error(error);
-	  }
-	}
-	function updateMeteoCard(result){
-		console.log(result)
-		let iconCode = result.weather[0].icon;
-		let temp     = result.main.temp;
-		document.getElementById('wicon').src=`http://openweathermap.org/img/w/${iconCode}.png`
-		document.querySelector('.temp').textContent=Math.round(temp)+'°c'
-		document.querySelector('.city-title').textContent=result.name;
-
-
-	}
-
-	let goBtn = document.querySelector('#goBtn');
-	goBtn.addEventListener('click',async function(){
-		let a = await getWeather();
-	})
- */ 
